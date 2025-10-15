@@ -16,7 +16,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Agenda agenda = new Agenda();
         agenda.cargarDatosDeArchivo(); //(AQUI PRIMERO HAREMOS LA CARGA DE DATOS)
-        //bucle con el men'u
+        //bucle con el menu
         while (!salir){
             System.out.println("\n1--------------------------------------- Agregar persona");
             System.out.println("2--------------------------------------- Buscar persona");

@@ -36,6 +36,7 @@ public class Agenda {
             System.out.println("No existe el archivo");
             return;
         }
+        /*Usaré un try with resources, que cierra automaticamente el flujo, de modo que nos quitamos lios de finally*/
         /*Voy a hacer un try with resources para evitar usar un finally y tener que cerrar el flujo
         * la cosa de esto basicamente es que mientras el inputStream reciba cosas, ira convirtiendo los objetos que pille
         * en personas, y las agregue a la agenda*/
