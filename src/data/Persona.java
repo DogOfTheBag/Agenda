@@ -1,5 +1,6 @@
 package data;
-
+/*Lo dicho antes, para poder convertir en bytes los datos de la clase persona
+* debemos implementar la interfaz Serializable*/
 import java.io.Serializable;
 
 public class Persona implements Serializable {

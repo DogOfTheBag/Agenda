@@ -5,18 +5,18 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        /**DEFINICION DE VARIABLES**/
+        /*DEFINICION DE VARIABLES*/
         boolean salir = false;
         int eleccion;
         String dni;
         String nombre;
         long telefono;
-        /**DEFINICION DE VARIABLES**/
+        /*DEFINICION DE VARIABLES*/
 
         Scanner sc = new Scanner(System.in);
         Agenda agenda = new Agenda();
         agenda.cargarDatosDeArchivo(); //(AQUI PRIMERO HAREMOS LA CARGA DE DATOS)
-
+        //bucle con el men'u
         while (!salir){
             System.out.println("\n1--------------------------------------- Agregar persona");
             System.out.println("2--------------------------------------- Buscar persona");
@@ -94,54 +94,8 @@ public class Main {
                     System.out.println("Guardado correctamente, que tengas un buen dia!");
                     salir = true;
                     break;
-
-
             }
 
         }
-
-    /*
-
-*********************************** PRUEBAS **********************************************
-
-        System.out.println(agenda.agregar("1", "Pepe", 444444444));
-
-        try {
-            agenda.agregar("22334455D", "Alberto Cortijo", 223344556);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            agenda.agregar("11223344G", "David Garcia", 112233445);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(agenda);
-        /*
-        try {
-            agenda.agregar("22334455D", "Alberto Cortijo", 223344556);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-           */
-        /*System.out.println(agenda);
-        System.out.println(agenda.eliminar("12"));
-        System.out.println(agenda.eliminar("1"));
-        System.out.println(agenda);
-
-
-        try {
-            System.out.println(agenda.recuperar("33"));
-        } catch (Exception e) {
-            throw new Exception(e);
-
-        }
-        try {
-            System.out.println(agenda.recuperar("22334455D"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        */
-
     }
 }

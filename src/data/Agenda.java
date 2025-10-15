@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Agenda {
+    //he puesto el Set de DNI para que cuando te lo pasen no deje meter ni un repetido
     Set<String> dnis;
     HashMap<String,Persona> personas;
 
@@ -22,18 +23,28 @@ public class Agenda {
         dnis = new HashSet<>();
     }
 
+    /*IMPORTANTE: CON LA CARGA Y EL GUARDADO MANEJAMOS BYTES, POR LO QUE TENEMOS QUE HACER SERIALIZABLE
+    * LA CLASE PERSONA, DE FORMA QUE PUEDAS PASAR ESA INFORMACION A BYTES Y QUE EL ARCHIVO FUNCIONE.*/
+
     public void cargarDatosDeArchivo(){
+        //me he puesto a usar java.nio en vez de io para probarlo
+        //le tengo que poner res primero y luego el nombre del archivo debido a que esta en la carpeta res y no en la misma
         Path ruta = Path.of("res","personas.dat");
 
+        //comprobamos que exista el archivo primero y si no salimos
         if(!Files.exists(ruta)){
             System.out.println("No existe el archivo");
             return;
         }
+        /*Voy a hacer un try with resources para evitar usar un finally y tener que cerrar el flujo
+        * la cosa de esto basicamente es que mientras el inputStream reciba cosas, ira convirtiendo los objetos que pille
+        * en personas, y las agregue a la agenda*/
         try (ObjectInputStream is = new ObjectInputStream(Files.newInputStream(ruta))){
-            while (true) {
+            while(true) {
                 Persona p = (Persona) is.readObject();
                 personas.put(p.getDni(), p);
             }
+            //importante end of file para que pille cuando ya hayas metido todo y salga de aqui
         }catch(EOFException e){
                 System.out.println("Todos los datos cargados correctamente.");
             }
@@ -42,6 +53,7 @@ public class Agenda {
         }
     }
 
+    /* El principio del guardar es parecido al cargar, path y comprobar si existe el archivo*/
     public void guardarDatosEnArchivo(){
         Path ruta = Path.of("res", "personas.dat");
 
@@ -49,7 +61,8 @@ public class Agenda {
             System.out.println("No existe el archivo");
             return;
         }
-
+            /*El guardar es mas facil, cogemos un for each, y los valores del hashMap los ponemos en forma de byte con
+            * el ObjectOutputStream*/
         try(ObjectOutputStream os = new ObjectOutputStream(Files.newOutputStream(ruta))){
             for (Persona p : personas.values()) {
                 os.writeObject(p);
@@ -58,7 +71,8 @@ public class Agenda {
             throw new RuntimeException(e);
         }
     }
-
+        /*Para evitar repetidos usamos el Set de DNI, de forma que le pases tu el DNI, comprueba si hay ese DNI en el set
+        * y si lo hay no te agrega la persona automaticamente.*/
     public boolean agregar(String dni, String nombre, long telefono) throws Exception {
         personas.put(dni,new Persona(dni, nombre, telefono));
         if(dnis.add(dni)){
@@ -66,7 +80,7 @@ public class Agenda {
         }
         throw new Exception("Error al introducir a la persona, datos erróneos o ya hay un DNI igual en la agenda");
     }
-//deberia hacer que lance excepciones esto
+
     public boolean eliminar(String dni) throws Exception {
         for (Persona p : personas.values()) {
             if (p.getDni().equalsIgnoreCase(dni)){
@@ -78,11 +92,11 @@ public class Agenda {
     }
 
     public Persona recuperar(String dni) throws Exception {
-            for (Persona p : personas.values()) {
-                if(p.getDni().equalsIgnoreCase(dni)){
-                    return p;
-                }
+        for (Persona p : personas.values()) {
+            if(p.getDni().equalsIgnoreCase(dni)){
+                return p;
             }
+        }
         throw new Exception("No se ha encontrado una persona con este DNI");
     }
 
@@ -95,7 +109,6 @@ public class Agenda {
         * de modo que si le quieres pasar el contenido, le pasas values y se queda como de normal*/
         for (Persona p : personas.values()) {
             sb.append(p);
-
         }
         return sb.toString();
     }
