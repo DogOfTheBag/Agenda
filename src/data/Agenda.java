@@ -1,6 +1,7 @@
 package data;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Agenda {
@@ -9,19 +10,17 @@ public class Agenda {
 
     public Agenda() {
         personas = new HashMap();
+        dnis = new HashSet<>();
     }
 
-    public boolean agregar(String dni, String nombre, long telefono){
-        try{
-            personas.put(dni,new Persona(dni, nombre, telefono));
+    public boolean agregar(String dni, String nombre, long telefono) throws Exception {
+        personas.put(dni,new Persona(dni, nombre, telefono));
+        if(dnis.add(dni)){
             return true;
-
-        }catch (Exception e){
-            System.out.println("Error al guardar persona: " + e.getMessage());
         }
-        return false;
+        throw new Exception("Error al introducir a la persona, datos erróneos o ya hay un DNI igual en la agenda");
     }
-
+//deberia hacer que lance excepciones esto
     public boolean eliminar(String dni){
         for (Persona p : personas.values()) {
             if (p.getDni().equalsIgnoreCase(dni)){
@@ -32,21 +31,21 @@ public class Agenda {
         return false;
     }
 
-    public Persona recuperar(String dni){
-        for (Persona p : personas.values()) {
-            if(p.getDni().equalsIgnoreCase(dni)){
-                return p;
+    public Persona recuperar(String dni) throws Exception {
+            for (Persona p : personas.values()) {
+                if(p.getDni().equalsIgnoreCase(dni)){
+                    return p;
+                }
             }
-        }
-        return
-
+        throw new Exception("No se ha encontrado una persona con este DNI");
     }
 
     @Override
     public String toString() {
+        // que no se me olvide la existencia de StringBuilder que hace las cadenas mucho mejor que el + y ya
         StringBuilder sb = new StringBuilder("En la agenda tenemos las siguientes personas:\n");
         /*Lo nuevo a tener en cuenta de los hashmaps en el fore es que no le podemos pasar directamente personas
-        * debido a que como el mapa como tal tiene clave valor, le pasarias ambas
+        * debido a que como el mapa como tal tiene clave valor, le pasarías ambas
         * de modo que si le quieres pasar el contenido, le pasas values y se queda como de normal*/
         for (Persona p : personas.values()) {
             sb.append(p);
