@@ -46,6 +46,7 @@ public class Main {
                         agenda.agregar(dni,nombre,telefono);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        Thread.sleep(1000);
                     }
                     break;
 
@@ -59,6 +60,7 @@ public class Main {
                         Thread.sleep(2000);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
+                        Thread.sleep(1000);
                     }
                     break;
 
@@ -67,8 +69,16 @@ public class Main {
                     System.out.println("Introduce el dni de la persona a eliminar");
                     dni = sc.nextLine();
 
-                    agenda.eliminar(dni);
-                    break;
+                    try{
+                        agenda.eliminar(dni);
+                        System.out.println("Persona eliminada correctamente");
+                        Thread.sleep(1000);
+
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        Thread.sleep(1000);
+                    }
+                break;
 
                 //mostrar agenda
                 case 4:

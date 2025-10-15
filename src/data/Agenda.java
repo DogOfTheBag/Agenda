@@ -21,14 +21,14 @@ public class Agenda {
         throw new Exception("Error al introducir a la persona, datos erróneos o ya hay un DNI igual en la agenda");
     }
 //deberia hacer que lance excepciones esto
-    public boolean eliminar(String dni){
+    public boolean eliminar(String dni) throws Exception {
         for (Persona p : personas.values()) {
             if (p.getDni().equalsIgnoreCase(dni)){
                 personas.remove(dni);
                 return true;
             }
         }
-        return false;
+        throw new Exception("DNI erroneo o no existe la persona");
     }
 
     public Persona recuperar(String dni) throws Exception {
