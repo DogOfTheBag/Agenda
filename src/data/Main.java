@@ -1,6 +1,6 @@
 package data;
 
-import java.sql.SQLOutput;
+
 import java.util.Scanner;
 
 public class Main {
@@ -15,7 +15,7 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         Agenda agenda = new Agenda();
-        //agenda.CargarDatos (AQUI PRIMERO HAREMOS LA CARGA DE DATOS)
+        agenda.cargarDatosDeArchivo(); //(AQUI PRIMERO HAREMOS LA CARGA DE DATOS)
 
         while (!salir){
             System.out.println("\n1--------------------------------------- Agregar persona");
@@ -89,7 +89,7 @@ public class Main {
                 //guardar y salir
                 case 5:
                     System.out.println("Guardando contenido...");
-                    //agenda.guardarDatos
+                    agenda.guardarDatosEnArchivo();
                     Thread.sleep(1500);
                     System.out.println("Guardado correctamente, que tengas un buen dia!");
                     salir = true;

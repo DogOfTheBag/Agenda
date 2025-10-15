@@ -1,5 +1,13 @@
 package data;
 
+
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,9 +16,47 @@ public class Agenda {
     Set<String> dnis;
     HashMap<String,Persona> personas;
 
+
     public Agenda() {
         personas = new HashMap();
         dnis = new HashSet<>();
+    }
+
+    public void cargarDatosDeArchivo(){
+        Path ruta = Path.of("res","personas.dat");
+
+        if(!Files.exists(ruta)){
+            System.out.println("No existe el archivo");
+            return;
+        }
+        try (ObjectInputStream is = new ObjectInputStream(Files.newInputStream(ruta))){
+            while (true) {
+                Persona p = (Persona) is.readObject();
+                personas.put(p.getDni(), p);
+            }
+        }catch(EOFException e){
+                System.out.println("Todos los datos cargados correctamente.");
+            }
+         catch(IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void guardarDatosEnArchivo(){
+        Path ruta = Path.of("res", "personas.dat");
+
+        if(!Files.exists(ruta)){
+            System.out.println("No existe el archivo");
+            return;
+        }
+
+        try(ObjectOutputStream os = new ObjectOutputStream(Files.newOutputStream(ruta))){
+            for (Persona p : personas.values()) {
+                os.writeObject(p);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean agregar(String dni, String nombre, long telefono) throws Exception {
